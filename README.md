@@ -2,7 +2,7 @@
 
 ส่งงานอาจารย์ Chanintorn Chalermsuk
   
-## Screenshots
+## Preview
 
 <table>
   <tr>
