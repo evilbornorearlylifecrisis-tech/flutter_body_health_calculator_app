@@ -33,4 +33,4 @@
 
 ## Demo Video
 
-- [ชมคลิปสาธิตการใช้งาน](https://github.com/user-attachments/assets/011ebf68-3dad-4843-9a55-75e1c9a698ce)
+<video src="https://github.com/user-attachments/assets/011ebf68-3dad-4843-9a55-75e1c9a698ce" controls width="700"></video>
