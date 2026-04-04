@@ -1,7 +1,7 @@
 # Flutter_Body_Health_Calculator_App
 
 ส่งงานอาจารย์ Chanintorn Chalermsuk
-  
+
 ## Preview
 
 <table>
@@ -30,3 +30,7 @@
     </td>
   </tr>
 </table>
+
+## Demo Video
+
+- [ชมคลิปสาธิตการใช้งาน](https://github.com/user-attachments/assets/011ebf68-3dad-4843-9a55-75e1c9a698ce)
