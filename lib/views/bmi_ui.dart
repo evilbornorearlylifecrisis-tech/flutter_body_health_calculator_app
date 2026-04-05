@@ -8,61 +8,14 @@ class BmiUi extends StatefulWidget {
 }
 
 class _BmiUiState extends State<BmiUi> {
-  final TextEditingController weightCtrl = TextEditingController();
-  final TextEditingController heightCtrl = TextEditingController();
+  final TextEditingController wCtrl = TextEditingController();
+  final TextEditingController hCtrl = TextEditingController();
   double bmiResult = 0.00;
   String bmiResultText = 'การแปลผล';
 
-  double? _parseInput(String value) {
-    return double.tryParse(value.trim().replaceAll(',', '.'));
-  }
-
-  String _getBmiResultText(double bmi) {
-    if (bmi < 18.5) {
-      return 'น้ำหนักน้อย';
-    }
-    if (bmi < 23) {
-      return 'ปกติ';
-    }
-    if (bmi < 25) {
-      return 'น้ำหนักเกิน';
-    }
-    if (bmi < 30) {
-      return 'อ้วน';
-    }
-    return 'อ้วนมาก';
-  }
-
-  void _showInvalidMessage() {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('กรุณากรอกข้อมูลให้ถูกต้อง'),
-      ),
-    );
-  }
-
-  void _calculateBmi() {
-    final double? weight = _parseInput(weightCtrl.text);
-    final double? heightCm = _parseInput(heightCtrl.text);
-
-    if (weight == null || heightCm == null || weight <= 0 || heightCm <= 0) {
-      _showInvalidMessage();
-      return;
-    }
-
-    final double heightM = heightCm / 100;
-    final double bmi = weight / (heightM * heightM);
-
-    setState(() {
-      bmiResult = bmi;
-      bmiResultText = _getBmiResultText(bmi);
-    });
-  }
-
   void _clearBmiData() {
-    weightCtrl.clear();
-    heightCtrl.clear();
+    wCtrl.clear();
+    hCtrl.clear();
     setState(() {
       bmiResult = 0.00;
       bmiResultText = 'การแปลผล';
@@ -71,8 +24,8 @@ class _BmiUiState extends State<BmiUi> {
 
   @override
   void dispose() {
-    weightCtrl.dispose();
-    heightCtrl.dispose();
+    wCtrl.dispose();
+    hCtrl.dispose();
     super.dispose();
   }
 
@@ -114,7 +67,7 @@ class _BmiUiState extends State<BmiUi> {
                   ),
                 ),
                 TextField(
-                  controller: weightCtrl,
+                  controller: wCtrl,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'กรุณากรอกน้ำหนัก',
@@ -129,7 +82,7 @@ class _BmiUiState extends State<BmiUi> {
                   ),
                 ),
                 TextField(
-                  controller: heightCtrl,
+                  controller: hCtrl,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'กรุณากรอกส่วนสูง',
@@ -139,7 +92,62 @@ class _BmiUiState extends State<BmiUi> {
                 SizedBox(height: 10),
                 // ส่วนปุ่ม
                 ElevatedButton(
-                  onPressed: _calculateBmi,
+                  onPressed: () {
+                    if (wCtrl.text.isEmpty || hCtrl.text.isEmpty) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('กรุณากรอกข้อมูลให้ครบ'),
+                          backgroundColor: Colors.red,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                      return;
+                    }
+
+                    final double? weight = double.tryParse(
+                      wCtrl.text.trim().replaceAll(',', '.'),
+                    );
+                    final double? heightCm = double.tryParse(
+                      hCtrl.text.trim().replaceAll(',', '.'),
+                    );
+
+                    if (weight == null ||
+                        heightCm == null ||
+                        weight <= 0 ||
+                        heightCm <= 0) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('กรุณากรอกข้อมูลให้ถูกต้อง'),
+                          backgroundColor: Colors.red,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                      return;
+                    }
+
+                    final double bmi =
+                        weight / ((heightCm / 100) * (heightCm / 100));
+                    String bmiText = '';
+
+                    if (bmi < 18.5) {
+                      bmiText = 'ผอมเกินไป';
+                    } else if (bmi <= 22.9) {
+                      bmiText = 'สมส่วน';
+                    } else if (bmi <= 24.9) {
+                      bmiText = 'ท้วม';
+                    } else if (bmi <= 29.9) {
+                      bmiText = 'โรคอ้วนระดับ 1';
+                    } else {
+                      bmiText = 'โรคอ้วนระดับ 2';
+                    }
+
+                    setState(() {
+                      bmiResult = bmi;
+                      bmiResultText = bmiText;
+                    });
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepOrange,
                     fixedSize: Size(

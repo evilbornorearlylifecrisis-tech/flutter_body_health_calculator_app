@@ -23,6 +23,8 @@ class _BmrUiState extends State<BmrUi> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('กรุณากรอกข้อมูลให้ถูกต้อง'),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
       ),
     );
   }
@@ -111,9 +113,8 @@ class _BmrUiState extends State<BmrUi> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            isMale ? Colors.lightBlue[200] : Colors.white,
-                        foregroundColor:
-                            isMale ? Colors.blue[900] : Colors.grey[700],
+                            isMale ? Colors.blue : Colors.grey[400],
+                        foregroundColor: Colors.white,
                         elevation: 3,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -141,9 +142,8 @@ class _BmrUiState extends State<BmrUi> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            isMale ? Colors.white : Colors.lightBlue[200],
-                        foregroundColor:
-                            isMale ? Colors.grey[700] : Colors.blue[900],
+                            isMale ? Colors.grey[400] : Colors.pink,
+                        foregroundColor: Colors.white,
                         elevation: 3,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
